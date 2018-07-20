@@ -1,0 +1,52 @@
+#!/bin/bash
+set -euo pipefail
+shopt -s nocasematch
+
+repo=$(dirname $(realpath $0))
+cmd="$EDITOR"
+date=today
+
+main() {
+    for arg; do
+        case "$arg" in
+            status|st)
+                shift
+                exec git -C $repo status "$@";;
+
+            diff|di)
+                shift
+                exec git -C $repo diff "$@";;
+
+            commit|ci)
+                shift
+                git -C $repo add .
+                exec git -C $repo commit -v ${1:+-m} "$*";;
+
+            push)
+                exec git -C $repo push;;
+
+            view)
+                cmd=pan
+                shift;;
+
+            edit)
+                # no-op, we default to this
+                shift;;
+
+            *)
+                date="$arg"
+                break;;
+        esac
+    done
+
+    if [[ $date =~ ^(monday|tuesday|wednesday|thursday|friday|saturday|sunday)$ ]]; then
+        # Prefer past days when referring to by name.  I rarely write about the
+        # future and more frequently want to re-read the past.
+        date="last $date"
+    fi
+
+    date="$(date +%F -d "$date")"
+    exec $cmd "$repo/$date.md"
+}
+
+main "$@"
