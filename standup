@@ -29,6 +29,21 @@ main() {
                 cmd=pan
                 shift;;
 
+            link|open)
+                cmd="xdg-open"
+                repo="$(git -C $repo remote get-url origin)"
+
+                if [[ ! $repo =~ github\.com ]]; then
+                    echo "Remote origin ($repo) doesn't appear to be GitHub." >&2
+                    exit 1
+                fi
+
+                # Rewrite repo to URL
+                repo="${repo#*github.com[:/]}"
+                repo="${repo%.git}"
+                repo="https://github.com/$repo/blob/master"   # assume we're always on master for now
+                shift;;
+
             edit)
                 # no-op, we default to this
                 shift;;
