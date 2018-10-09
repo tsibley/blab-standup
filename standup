@@ -49,7 +49,7 @@ main() {
                 shift;;
 
             *)
-                date="$arg"
+                date="$*"
                 break;;
         esac
     done
