@@ -9,21 +9,17 @@ date=today
 main() {
     for arg; do
         case "$arg" in
-            status|st)
+            git)
                 shift
-                exec git -C $repo status "$@";;
+                exec git -C $repo "$@";;
 
-            diff|di)
-                shift
-                exec git -C $repo diff "$@";;
+            status|st|diff|di|push|pull)
+                exec git -C $repo "$@";;
 
             commit|ci)
                 shift
                 git -C $repo add .
                 exec git -C $repo commit -v ${1:+-m} "$*";;
-
-            push)
-                exec git -C $repo push;;
 
             view)
                 cmd=pan
