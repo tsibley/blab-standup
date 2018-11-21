@@ -13,7 +13,7 @@ main() {
                 shift
                 exec git -C $repo "$@";;
 
-            status|st|diff|di|push|pull)
+            status|st|diff|di|push|pull|grep)
                 exec git -C $repo "$@";;
 
             commit|ci)
