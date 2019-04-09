@@ -50,6 +50,11 @@ main() {
         esac
     done
 
+    if [[ $date =~ ^(last|prev(ious)?)$ ]]; then
+        # Find the last/previous entry.
+        date="$(basename $(ls -t "$repo"/????-??-??.md | head -n1) .md)"
+    fi
+
     if [[ $date =~ ^(monday|tuesday|wednesday|thursday|friday|saturday|sunday)$ ]]; then
         # Prefer past days when referring to by name.  I rarely write about the
         # future and more frequently want to re-read the past.
