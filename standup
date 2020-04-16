@@ -25,6 +25,10 @@ main() {
                 cmd=pan
                 shift;;
 
+            preview)
+                cmd=markdown2html
+                shift;;
+
             link|open)
                 cmd="xdg-open"
                 repo="$(git -C $repo remote get-url origin)"
