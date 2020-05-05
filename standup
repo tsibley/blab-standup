@@ -3,7 +3,7 @@ set -euo pipefail
 shopt -s nocasematch
 
 repo=$(dirname $(realpath $0))
-cmd="$EDITOR"
+cmd=edit
 date=today
 
 main() {
@@ -66,7 +66,22 @@ main() {
     fi
 
     date="$(date +%F -d "$date")"
-    exec $cmd "$repo/$date.md"
+    file="$repo/$date.md"
+
+    if [[ $cmd == edit ]]; then
+        # Don't use /usr/bin/edit because it might try to be smart and use
+        # mailcap depending on the extension or magic bytes.
+        cmd="$EDITOR"
+
+        if [[ ! -s "$file" ]]; then
+            cat >"$file" <<.
+# $(date +"%-d %B %Y")
+# or, …
+.
+        fi
+    fi
+
+    exec $cmd "$file"
 }
 
 main "$@"
