@@ -18,8 +18,9 @@ main() {
 
             commit|ci)
                 shift
+                msg="$*"
                 git -C $repo add .
-                exec git -C $repo commit -v ${1:+-m} "$*";;
+                exec git -C $repo commit -m "${msg:-more thoughts}";;
 
             view)
                 cmd=pan
