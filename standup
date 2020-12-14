@@ -2,7 +2,8 @@
 set -euo pipefail
 shopt -s nocasematch
 
-repo=$(dirname $(realpath $0))
+path="$(dirname $(realpath $0))"
+repo="$path"
 cmd=edit
 date=today
 
@@ -57,7 +58,7 @@ main() {
 
     if [[ $date =~ ^(last|prev(ious)?)$ ]]; then
         # Find the last/previous entry.
-        date="$(basename $(ls -t "$repo"/????-??-??.md | head -n1) .md)"
+        date="$(basename $(ls -t "$path"/????-??-??.md | head -n1) .md)"
     fi
 
     if [[ $date =~ ^(monday|tuesday|wednesday|thursday|friday|saturday|sunday)$ ]]; then
