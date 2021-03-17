@@ -1,0 +1,39 @@
+# 1 February 2021
+# or, …
+
+
+pip install nextstrain-cli
+  or even better, download a packed executable for your platform which "just runs"
+    chmod +x nextstrain
+
+
+nextstrain setup
+  Docker
+  Auto-managed Conda env (pairs with "native" runner)
+
+  AWS Batch (eventually)
+    - Eventually create resources with CloudFormation/Terraform
+
+
+nextstrain check-setup
+  better output
+  better support on Windows
+
+
+
+
+Ideas:
+  * Live streaming of files back from remote builds (using Dat)
+  * Download selected files (or no files) when attaching to build
+
+  * Tracking of detached builds
+      - check status
+      - re-attach more easily
+
+  * Satisfying build deps
+      - buildpacks!
+
+  * Logging in to nextstrain.org
+
+  * Singularity support (should be very straightforward)
+  * GCP support

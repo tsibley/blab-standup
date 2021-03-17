@@ -1,0 +1,146 @@
+# 17 December 2020
+# or, …
+
+
+
+
+
+XXX TODO: Compare v1 with v2 (starting from 2018-12-26 notes?)
+XXX TODO: Pros and cons of v2, from 2018-12-26 notes
+
+
+XXX FIXME: Operations on _datasets_ and _narratives_ not _files_ or _prefixes_.
+
+
+Resources exposed via the API are:
+
+  * Dataset collection
+    * Dataset
+      * Dataset sidecar
+  * Narrative collection
+    * Narrative
+
+Response media types are:
+
+  * `application/json` (`.json`)
+  * `text/markdown` (`.md`)
+
+They may be requested via the `Accept` header or extensions appended to the URL
+path.
+
+Request media types (e.g. for PUT) are:
+
+  * `application/json` (`.json`)
+  * `text/markdown` (`.md`)
+  * `application/zip` (`.zip`)
+
+They may be declared via the `Content-Type` header or extensions appended to
+the URL path.
+
+Request encodings may be:
+
+  * `gzip`
+  * `deflate`
+
+
+    GET    /charon/v2/dataset/                                # Lists available datasets (and all known sidecars?)
+
+    GET    /charon/v2/dataset/{datasetPath}                   # Fetch a dataset (defaults to application/json; can be application/zip)
+    GET    /charon/v2/dataset/{datasetPath}.json              # Fetch a dataset
+    GET    /charon/v2/dataset/{datasetPath}.zip               # Fetch a dataset and all sidecars as a zip file
+
+    PUT    /charon/v2/dataset/{datasetPath}                   # Replace (or create) a dataset (defaults to application/json; can be application/zip)
+    PUT    /charon/v2/dataset/{datasetPath}.json              # Replace (or create) a dataset
+    PUT    /charon/v2/dataset/{datasetPath}.zip               # Replace (or create) a dataset and all sidecars from a zip file
+
+    DELETE /charon/v2/dataset/{datasetPath}                   # Delete a dataset and all sidecars
+
+    GET    /charon/v2/dataset/{datasetPath}/{sidecar}         # Fetch a dataset sidecar (e.g. root-sequence or tip-frequencies)
+    GET    /charon/v2/dataset/{datasetPath}/{sidecar}.json    # Fetch a dataset sidecar
+
+    PUT    /charon/v2/dataset/{datasetPath}/{sidecar}         # Replace (or create) a dataset sidecar
+    PUT    /charon/v2/dataset/{datasetPath}/{sidecar}.json    # Replace (or create) a dataset sidecar
+
+    DELETE /charon/v2/dataset/{datasetPath}/{sidecar}         # Delete a dataset sidecar
+
+
+
+    GET    /charon/v2/dataset/                             # Lists available datasets (and all known sidecars?)
+
+    GET    /charon/v2/dataset/{datasetPath}                # Fetch basic information (metadata) about a dataset (implemented at first by reading {dataset}/meta.json or {dataset}/main.json#meta)
+    DELETE /charon/v2/dataset/{datasetPath}                # Delete an entire dataset and all sidecars
+
+    GET    /charon/v2/dataset/{datasetPath}.zip            # Fetch an entire dataset (all files) as a zip file
+    PUT    /charon/v2/dataset/{datasetPath}.zip            # Replace (or create) an entire dataset (all files) from a zip file
+
+    GET    /charon/v2/dataset/{datasetPath}/{name}.json    # Fetch a dataset file
+    PUT    /charon/v2/dataset/{datasetPath}/{name}.json    # Replace (or create) a dataset file
+    DELETE /charon/v2/dataset/{datasetPath}/{name}.json    # Delete a dataset file
+
+
+
+
+
+XXX TODO: Narratives
+XXX TODO: Default datasets for partial paths?  Explicit API support or not?
+  probably not!
+
+
+XXX TODO: Examples of how old requests map to new ones
+XXX TODO: Examples of how requests map to files?
+
+
+
+XXX TODO: Support meta + tree versions of Nextstrain build JSONs?  Or ignore
+this in name of progress?
+  /charon/v2/dataset/ncov/global.json
+  /charon/v2/dataset/ncov/global/meta.json
+  /charon/v2/dataset/ncov/global/tree.json
+
+
+XXX TODO: Describe the requests Auspice will make; it won't use all endpoints.
+    </charon/v2/dataset/{name}/main.json>, falling back to
+      </charon/v2/dataset/{name}/meta.json> &
+      </charon/v2/dataset/{name}/tree.json>
+
+
+
+
+XXX TODO: Describe the requests the CLI will make
+    nextstrain remote upload nextstrain.org ncov_global.json ncov_europe.json …
+    nextstrain remote upload nextstrain.org/staging ncov_global.json ncov_europe.json …
+
+    nextstrain remote ls nextstrain.org
+    nextstrain remote ls nextstrain.org/flu
+    nextstrain remote ls nextstrain.org/staging
+    nextstrain remote ls nextstrain.org/groups/blab
+
+    nextstrain remote download nextstrain.org/flu/seasonal/h3n2/ha/2y
+      → GET nextstrain.org/charon/v2/dataset/flu/seasonal/h3n2/ha/2y/main.json
+      → GET nextstrain.org/charon/v2/dataset/flu/seasonal/h3n2/ha/2y/tip-frequencies.json
+      → GET nextstrain.org/charon/v2/dataset/flu/seasonal/h3n2/ha/2y/….json
+
+    nextstrain remote download nextstrain.org/flu
+      → fails; not specific to a dataset; could be supported in future
+
+    nextstrain remote rm nextstrain.org/flu/seasonal/h3n2/ha/2y
+      → DELETE nextstrain.org/charon/v2/dataset/flu/seasonal/h3n2/ha/2y/main.json
+      → DELETE nextstrain.org/charon/v2/dataset/flu/seasonal/h3n2/ha/2y/tip-frequencies.json
+      → DELETE nextstrain.org/charon/v2/dataset/flu/seasonal/h3n2/ha/2y/….json
+
+    nextstrain remote rm nextstrain.org/flu
+      → fails; not specific to a dataset; matches existing behaviour
+
+
+    nextstrain remote rm nextstrain.org/flu/seasonal/h3n2/ha/2y
+      → DELETE nextstrain.org/charon/v2/dataset/flu_seasonal_h3n2_ha_2y.json
+      → DELETE nextstrain.org/charon/v2/dataset/flu_seasonal_h3n2_ha_2y_tip-frequencies.json
+      → DELETE nextstrain.org/charon/v2/dataset/flu_seasonal_h3n2_ha_2y_….json
+
+      → DELETE nextstrain.org/charon/v2/dataset/groups_inrb-drc_ebola_2020-01-01.json
+      → DELETE nextstrain.org/charon/v2/dataset/flu_seasonal_h3n2_ha_2y_tip-frequencies.json
+      → DELETE nextstrain.org/charon/v2/dataset/flu_seasonal_h3n2_ha_2y_….json
+
+
+XXX TODO: Describe the requests the (future) nextstrain.org UI will make
+

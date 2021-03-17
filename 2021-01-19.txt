@@ -1,0 +1,60 @@
+# 19 January 2021
+# or, Build deps
+
+The first issue I ran into on Friday was one of software deps. ncov-ingest
+requires things that aren't in the base image used by nextstrain build. So I
+started to make a quick and dirty derivative image that added the deps on top
+of the base image, but that turned into a patch of bramble because computers
+are lovely and pleasant elegances. I think my prototype is nearly pushed
+through the bramble, but not sure it was worth it.
+
+It's frustrating.  Since the start of the CLI over two years ago, I've had
+several solid ideas percolating for how to address the story of "a build
+requires arbitrary deps", but none of them are implemented because priorities
+demanded I focus on immediate, reactive tasks instead of easily-foreseeable
+proactive tasks like that.  Of course, now it's high priority and they're not
+at hand, and we're once again being reactive.
+
+- Buildpacks
+  - Produces a fully-contained build image for each run, including the copy of the build source code
+  - Base image provided by the Nextstrain default buildpack would be very similar to existing base image
+  - Very robust, well-spec'd method for satisfying deps from various ecosystems, e.g.
+    - Python (requirements.txt, Pipfile, etc)
+    - Node (package.json, package-lock.json, yarn.lock, etc)
+    - Conda
+    - Ruby, including gems
+    - etc
+  - Works independently of workflow tool (Snakemake, Nextflow, CWL, etc)
+
+- Conda + Snakemake
+  - Go all in on Conda + Snakemake
+  - Eschew other workflow tools
+  - Base image is a Conda image + base nextstrain/conda environment
+  - Snakemake always run with --use-conda, and individual builds are expected
+    to use Conda to add additional deps beyond the Nextstrain base env
+
+
+
+
+Where does Snakemake's support for per-workflow and per-rule container support
+fit it?
+
+
+
+
+snakemake/snakemake image
+  + workflow-defined conda envs (e.g. for Nextstrain)
+
+conda image
+  + image-defined Nextstrain env
+
+nextstrain/base image
+  + conda installed for use by Snakemake
+
+
+Needs image entrypoints used by CLI
+
+
+revive good envdir integrations?
+  nextstrain write-envdir env.d FOO BAR BAZ=bam
+  nextstrain build --envdir env.d …
