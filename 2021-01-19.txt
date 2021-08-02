@@ -32,6 +32,8 @@ at hand, and we're once again being reactive.
   - Base image is a Conda image + base nextstrain/conda environment
   - Snakemake always run with --use-conda, and individual builds are expected
     to use Conda to add additional deps beyond the Nextstrain base env
+  - Big downside here is deps that aren't in the Conda ecosystem still can't be
+    satisfied
 
 
 
