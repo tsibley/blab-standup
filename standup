@@ -56,7 +56,7 @@ main() {
         esac
     done
 
-    if [[ $date =~ ^(last|prev(ious)?)$ ]]; then
+    if [[ $date =~ ^(last|latest|prev(ious)?)$ ]]; then
         # Find the last/previous entry.
         date="$(basename $(ls -t "$path"/????-??-??.md | head -n1) .md)"
     fi
