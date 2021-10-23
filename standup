@@ -56,12 +56,16 @@ main() {
         esac
     done
 
-    if [[ $date =~ ^(last|latest|prev(ious)?)$ ]]; then
+    if [[ $date =~ ^(last|latest|prev(ious)?)?$ ]]; then
         # Find the last/previous entry.
         date="$(basename $(ls -t "$path"/????-??-??.md | head -n1) .md)"
-    fi
 
-    if [[ $date =~ ^(monday|tuesday|wednesday|thursday|friday|saturday|sunday)$ ]]; then
+    elif [[ $date =~ ^-[1-9][0-9]*$ ]]; then
+        # Find the Nth-latest entry.
+        n=$((date * -1))
+        date="$(basename $(ls -t "$path"/????-??-??.md | head -n "$n" | tail -n 1) .md)"
+
+    elif [[ $date =~ ^(monday|tuesday|wednesday|thursday|friday|saturday|sunday)$ ]]; then
         # Prefer past days when referring to by name.  I rarely write about the
         # future and more frequently want to re-read the past.
         date="last $date"
