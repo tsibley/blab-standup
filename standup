@@ -81,7 +81,7 @@ main() {
 
         if [[ ! -s "$file" ]]; then
             cat >"$file" <<.
-# $(date +"%-d %B %Y")
+# $(date -d "$date" +"%-d %B %Y")
 # or, …
 .
         fi
