@@ -25,6 +25,9 @@ main() {
                 git -C $repo add .
                 exec git -C $repo commit -m "${msg:-more thoughts}";;
 
+            review)
+                exec $EDITOR -c 'last' $(list-files | tac);;
+
             view)
                 cmd=pan
                 shift;;
