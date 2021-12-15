@@ -1,11 +1,13 @@
 #!/bin/bash
 set -euo pipefail
 shopt -s nocasematch
+shopt -s nullglob
 
 path="$(dirname $(realpath $0))"
 repo="$path"
 cmd=edit
 date=today
+file=
 
 main() {
     for arg; do
@@ -58,12 +60,12 @@ main() {
 
     if [[ $date =~ ^(last|latest|prev(ious)?)?$ ]]; then
         # Find the last/previous entry.
-        date="$(basename $(ls "$path"/????-??-??.md | sort -r | head -n1) .md)"
+        file="$(list-files | head -n1)"
 
     elif [[ $date =~ ^-[1-9][0-9]*$ ]]; then
         # Find the Nth-latest entry.
         n=$((date * -1))
-        date="$(basename $(ls "$path"/????-??-??.md | sort -r | head -n "$n" | tail -n 1) .md)"
+        file="$(list-files | head -n "$n" | tail -n 1)"
 
     elif [[ $date =~ ^(monday|tuesday|wednesday|thursday|friday|saturday|sunday)$ ]]; then
         # Prefer past days when referring to by name.  I rarely write about the
@@ -71,8 +73,14 @@ main() {
         date="last $date"
     fi
 
-    date="$(date +%F -d "$date")"
-    file="$repo/$date.md"
+    if [[ -z $file ]]; then
+        date="$(date +%F -d "$date")"
+        file="$(list-files "$date" | head -n1)"
+
+        if [[ -z $file ]]; then
+            file="$repo/$date.md"
+        fi
+    fi
 
     if [[ $cmd == edit ]]; then
         # Don't use /usr/bin/edit because it might try to be smart and use
@@ -88,6 +96,11 @@ main() {
     fi
 
     exec $cmd "$file"
+}
+
+list-files() {
+    local basename="${1:-????-??-??}"
+    printf '%s\n' "$repo"/$basename.* | sort -r
 }
 
 main "$@"
