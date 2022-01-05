@@ -16,7 +16,7 @@ main() {
                 shift
                 exec git -C $repo "$@";;
 
-            status|st|diff|di|push|pull|grep)
+            status|st|diff|di|pull|grep)
                 exec git -C $repo "$@";;
 
             commit|ci)
@@ -24,6 +24,13 @@ main() {
                 msg="$*"
                 git -C $repo add .
                 exec git -C $repo commit -m "${msg:-more thoughts}";;
+
+            push)
+                shift
+                msg="$*"
+                git -C $repo add .
+                git -C $repo commit -m "${msg:-more thoughts}"
+                exec git -C $repo push;;
 
             review)
                 exec $EDITOR -c 'last' $(list-files | tac);;
