@@ -29,7 +29,9 @@ main() {
                 shift
                 msg="$*"
                 git -C $repo add .
-                git -C $repo commit -m "${msg:-more thoughts}"
+                if [[ -n "$(git -C $repo status --porcelain)" ]]; then
+                    git -C $repo commit -m "${msg:-more thoughts}"
+                fi
                 exec git -C $repo push;;
 
             review)
