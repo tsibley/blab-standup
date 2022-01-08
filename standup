@@ -35,7 +35,7 @@ main() {
                 exec git -C $repo push;;
 
             review)
-                exec $EDITOR -c 'last' $(list-files | tac);;
+                exec $EDITOR $(list-files);;
 
             view)
                 cmd=pan
