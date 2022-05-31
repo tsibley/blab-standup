@@ -5,6 +5,7 @@ shopt -s nullglob
 
 path="$(dirname $(realpath $0))"
 repo="$path"
+prefix="$repo"
 cmd=edit
 date=today
 file=
@@ -47,17 +48,17 @@ main() {
 
             link|open)
                 cmd="xdg-open"
-                repo="$(git -C $repo remote get-url origin)"
+                prefix="$(git -C $repo remote get-url origin)"
 
-                if [[ ! $repo =~ github\.com ]]; then
-                    echo "Remote origin ($repo) doesn't appear to be GitHub." >&2
+                if [[ ! $prefix =~ github\.com ]]; then
+                    echo "Remote origin ($prefix) doesn't appear to be GitHub." >&2
                     exit 1
                 fi
 
-                # Rewrite repo to URL
-                repo="${repo#*github.com[:/]}"
-                repo="${repo%.git}"
-                repo="https://github.com/$repo/blob/master"   # assume we're always on master for now
+                # Rewrite prefix to URL
+                prefix="${prefix#*github.com[:/]}"
+                prefix="${prefix%.git}"
+                prefix="https://github.com/$prefix/blob/master"   # assume we're always on master for now
                 shift;;
 
             edit)
@@ -90,7 +91,7 @@ main() {
         file="$(list-files "$date" | head -n1)"
 
         if [[ -z $file ]]; then
-            file="$repo/$date.md"
+            file="$prefix/$date.md"
         fi
     fi
 
