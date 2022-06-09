@@ -36,6 +36,7 @@ main() {
                 exec git -C $repo push;;
 
             review)
+                cd "$repo"
                 exec $EDITOR $(list-files);;
 
             view)
@@ -91,9 +92,12 @@ main() {
         file="$(list-files "$date" | head -n1)"
 
         if [[ -z $file ]]; then
-            file="$prefix/$date.md"
+            file="$date.md"
         fi
     fi
+
+    # file is just a filename sans path up to this point
+    file="$prefix/$file"
 
     if [[ $cmd == edit ]]; then
         # Don't use /usr/bin/edit because it might try to be smart and use
@@ -113,7 +117,7 @@ main() {
 
 list-files() {
     local basename="${1:-????-??-??}"
-    printf '%s\n' "$repo"/$basename.* | sort -r
+    (cd "$repo"; printf '%s\n' $basename.*) | sort -r
 }
 
 main "$@"
