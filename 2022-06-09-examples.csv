@@ -1,0 +1,4 @@
+ID,city,latitude,longitude,lineage,lineage__color
+AAA,Auckland,-37,174,B.1.1,#F020E2
+BBB,Auckland,-39,175,C.12,#20C9F0
+CCC,Wellington,-41,174,C.12,#20C9F0
