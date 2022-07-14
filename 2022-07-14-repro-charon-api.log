@@ -1,0 +1,112 @@
+[36m2022-07-14T18:20:40.022492+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:40 GMT express:router dispatching GET /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:40.022513+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:40 GMT express:router query  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:40.022587+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:40 GMT express:router expressInit  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:40.022629+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:40 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:40.022657+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:40 GMT express:router compression  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:40.022711+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:40 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:40.022772+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:40 GMT express:router rejectParentTraversals  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:40.022799+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:40 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:40.022836+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:40 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:40.022862+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:40 GMT express:router session  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:40.023029+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:40 GMT express-session fetching MASKED
+[36m2022-07-14T18:20:40.023148+00:00 app[web.1]:[39m 2022-07-14T18:20:40.023Z ioredis:redis write command[52.4.40.138:8160]: 0 -> get([ 'nextstrain.org-session:MASKED' ])
+[36m2022-07-14T18:20:40.024183+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:40 GMT express-session session found
+[36m2022-07-14T18:20:40.024335+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:40 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:40.024347+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:40 GMT express:router initialize  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:40.024373+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:40 GMT express:router authnWithToken  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:40.024404+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:40 GMT express:router authnWithSession  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:40.026258+00:00 app[web.1]:[39m 2022-07-14T18:20:40.026Z nextstrain:authn Restoring user object for trs from tokens (session MASKED…)
+[36m2022-07-14T18:20:40.026568+00:00 app[web.1]:[39m 2022-07-14T18:20:40.026Z ioredis:redis write command[52.4.40.138:8160]: 0 -> get([ 'userStaleBefore:trs' ])
+[36m2022-07-14T18:20:40.027633+00:00 app[web.1]:[39m 2022-07-14T18:20:40.027Z ioredis:redis write command[52.4.40.138:8160]: 0 -> get([ 'userStaleBefore:trs' ])
+[36m2022-07-14T18:20:40.028460+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:40 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:40.028486+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:40 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:40.028665+00:00 app[web.1]:[39m Getting (nextstrain) datasets for: prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:40.028894+00:00 app[web.1]:[39m [verbose]	[fetch] GET https://nextstrain-data.s3.amazonaws.com/enterovirus_d68_vp1.json (cache: no-cache)
+[36m2022-07-14T18:20:40.032988+00:00 app[web.1]:[39m 2022-07-14T18:20:40.032Z agentkeepalive sock[59#nextstrain-data.s3.amazonaws.com:443::::::::true:::::::::::::] create, timeout undefinedms
+[36m2022-07-14T18:20:40.060648+00:00 app[web.1]:[39m 2022-07-14T18:20:40.060Z agentkeepalive sock[59#nextstrain-data.s3.amazonaws.com:443::::::::true:::::::::::::](requests: 1, finished: 1) free
+[36m2022-07-14T18:20:40.061699+00:00 app[web.1]:[39m [verbose]	[fetch] 200 OK https://nextstrain-data.s3.amazonaws.com/enterovirus_d68_vp1.json (cache revalidated, timestamp Thu, 14 Jul 2022 18:18:20 GMT)
+[36m2022-07-14T18:20:40.063139+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:40 GMT express-session set-cookie nextstrain.org-session=s%3AMASKED; Domain=nextstrain.org; Path=/; Expires=Sat, 13 Aug 2022 18:20:40 GMT; HttpOnly; Secure; SameSite=Lax
+[36m2022-07-14T18:20:40.063191+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:40 GMT compression undefined not compressible
+[36m2022-07-14T18:20:40.063206+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:40 GMT compression no compression: filtered
+[36m2022-07-14T18:20:40.064717+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:40 GMT express-session touching
+[36m2022-07-14T18:20:40.064858+00:00 app[web.1]:[39m 2022-07-14T18:20:40.064Z ioredis:redis write command[52.4.40.138:8160]: 0 -> expire([ 'nextstrain.org-session:MASKED', '2592000' ])
+[36m2022-07-14T18:20:40.065505+00:00 app[web.1]:[39m [warning]	Failed to fetch v2 main JSON: Error [ERR_STREAM_PREMATURE_CLOSE]: Premature close
+[32m2022-07-14T18:20:40.065546+00:00 heroku[router]:[39m [2mat=[22m[2minfo[22m [2mmethod=[22m[1m[35mGET[39m[22m [2mpath=[22m[32m"/charon/getDataset?prefix=enterovirus/d68/vp1"[39m [2mhost=[22m[2mnext.nextstrain.org[22m [2mrequest_id=[22m[2m8959393b-9140-4c72-be05-0476451dd53b[22m [2mfwd=[22m[2m"140.107.103.219"[22m [2mdyno=[22m[36mweb.1[39m [2mconnect=[22m0ms [2mservice=[22m[92m42ms[39m [2mstatus=[22m[32m200[39m [2mbytes=[22m[2m332762[22m [2mprotocol=[22m[2mhttps[22m
+[36m2022-07-14T18:20:40.065835+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:40 GMT express-session touched
+
+
+[36m2022-07-14T18:20:46.072533+00:00 app[web.1]:[39m 2022-07-14T18:20:46.072Z agentkeepalive sock[59#nextstrain-data.s3.amazonaws.com:443::::::::true:::::::::::::](requests: 1, finished: 1) close, isError: false
+
+
+[36m2022-07-14T18:20:52.243388+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:52 GMT express:router dispatching GET /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:52.243432+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:52 GMT express:router query  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:52.243531+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:52 GMT express:router expressInit  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:52.243598+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:52 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:52.243636+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:52 GMT express:router compression  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:52.243709+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:52 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:52.243792+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:52 GMT express:router rejectParentTraversals  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:52.243833+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:52 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:52.243897+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:52 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:52.243935+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:52 GMT express:router session  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:52.244173+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:52 GMT express-session fetching MASKED
+[36m2022-07-14T18:20:52.244335+00:00 app[web.1]:[39m 2022-07-14T18:20:52.244Z ioredis:redis write command[52.4.40.138:8160]: 0 -> get([ 'nextstrain.org-session:MASKED' ])
+[36m2022-07-14T18:20:52.245517+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:52 GMT express-session session found
+[36m2022-07-14T18:20:52.245720+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:52 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:52.245749+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:52 GMT express:router initialize  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:52.245793+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:52 GMT express:router authnWithToken  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:52.245822+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:52 GMT express:router authnWithSession  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:52.247703+00:00 app[web.1]:[39m 2022-07-14T18:20:52.247Z nextstrain:authn Restoring user object for trs from tokens (session MASKED…)
+[36m2022-07-14T18:20:52.248076+00:00 app[web.1]:[39m 2022-07-14T18:20:52.248Z ioredis:redis write command[52.4.40.138:8160]: 0 -> get([ 'userStaleBefore:trs' ])
+[36m2022-07-14T18:20:52.249255+00:00 app[web.1]:[39m 2022-07-14T18:20:52.249Z ioredis:redis write command[52.4.40.138:8160]: 0 -> get([ 'userStaleBefore:trs' ])
+[36m2022-07-14T18:20:52.250151+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:52 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:52.250188+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:52 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:52.250412+00:00 app[web.1]:[39m Getting (nextstrain) datasets for: prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:52.250708+00:00 app[web.1]:[39m [verbose]	[fetch] GET https://nextstrain-data.s3.amazonaws.com/enterovirus_d68_vp1.json (cache: no-cache)
+[36m2022-07-14T18:20:52.255313+00:00 app[web.1]:[39m 2022-07-14T18:20:52.255Z agentkeepalive sock[60#nextstrain-data.s3.amazonaws.com:443::::::::true:::::::::::::] create, timeout undefinedms
+[36m2022-07-14T18:20:52.279462+00:00 app[web.1]:[39m 2022-07-14T18:20:52.279Z agentkeepalive sock[60#nextstrain-data.s3.amazonaws.com:443::::::::true:::::::::::::](requests: 1, finished: 1) free
+[36m2022-07-14T18:20:52.280488+00:00 app[web.1]:[39m [verbose]	[fetch] 200 OK https://nextstrain-data.s3.amazonaws.com/enterovirus_d68_vp1.json (cache revalidated, timestamp Thu, 14 Jul 2022 18:20:40 GMT)
+[36m2022-07-14T18:20:52.280761+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:52 GMT express-session touching
+[36m2022-07-14T18:20:52.280886+00:00 app[web.1]:[39m 2022-07-14T18:20:52.280Z ioredis:redis write command[52.4.40.138:8160]: 0 -> expire([ 'nextstrain.org-session:MASKED', '2592000' ])
+[36m2022-07-14T18:20:52.281071+00:00 app[web.1]:[39m [warning]	(GET) /charon/getDataset?prefix=enterovirus/d68/vp1 has not been handled / has no handler
+[36m2022-07-14T18:20:52.281181+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:52 GMT express:router serveStatic  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:52.281202+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:52 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:52.281216+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:52 GMT express:router wrappedErrorHandler  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:20:52.281312+00:00 app[web.1]:[39m [verbose]	Sending NotFoundError: Not Found error as JSON
+[36m2022-07-14T18:20:52.281481+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:52 GMT finalhandler default 404
+[36m2022-07-14T18:20:52.281937+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:52 GMT express-session touched
+[36m2022-07-14T18:20:52.282034+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:52 GMT express-session set-cookie nextstrain.org-session=s%3AMASKED; Domain=nextstrain.org; Path=/; Expires=Sat, 13 Aug 2022 18:20:52 GMT; HttpOnly; Secure; SameSite=Lax
+[36m2022-07-14T18:20:52.282087+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:20:52 GMT compression no compression: size below threshold
+[32m2022-07-14T18:20:52.282554+00:00 heroku[router]:[39m [2msock=[22m[2mbackend[22m [2mat=[22m[31merror[39m [2mcode=[22m[31m[1mH18[22m[39m [2mdesc=[22m[2m"Server[22m [2mRequest[22m [2mInterrupted"[22m [2mmethod=[22m[1m[35mGET[39m[22m [2mpath=[22m[32m"/charon/getDataset?prefix=enterovirus/d68/vp1"[39m [2mhost=[22m[2mnext.nextstrain.org[22m [2mrequest_id=[22m[2m9d320238-abef-479e-a4b7-e02fef83dd7a[22m [2mfwd=[22m[2m"140.107.103.219"[22m [2mdyno=[22m[36mweb.1[39m [2mconnect=[22m0ms [2mservice=[22m[92m40ms[39m [2mstatus=[22m[31m503[39m [2mbytes=[22m [2mprotocol=[22m[2mhttps[22m
+
+
+[36m2022-07-14T18:20:58.359775+00:00 app[web.1]:[39m 2022-07-14T18:20:58.359Z agentkeepalive sock[60#nextstrain-data.s3.amazonaws.com:443::::::::true:::::::::::::](requests: 1, finished: 1) close, isError: false
+
+
+[36m2022-07-14T18:21:02.667135+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:21:02 GMT express:router dispatching GET /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:21:02.667150+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:21:02 GMT express:router query  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:21:02.667226+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:21:02 GMT express:router expressInit  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:21:02.667268+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:21:02 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:21:02.667295+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:21:02 GMT express:router compression  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:21:02.667366+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:21:02 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:21:02.667418+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:21:02 GMT express:router rejectParentTraversals  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:21:02.667441+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:21:02 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:21:02.667482+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:21:02 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:21:02.667505+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:21:02 GMT express:router session  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:21:02.667594+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:21:02 GMT express-session no SID sent, generating session
+[36m2022-07-14T18:21:02.667726+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:21:02 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:21:02.667742+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:21:02 GMT express:router initialize  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:21:02.667768+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:21:02 GMT express:router authnWithToken  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:21:02.667800+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:21:02 GMT express:router authnWithSession  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:21:02.667825+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:21:02 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:21:02.667843+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:21:02 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:21:02.668030+00:00 app[web.1]:[39m Getting (nextstrain) datasets for: prefix=enterovirus/d68/vp1
+[36m2022-07-14T18:21:02.668302+00:00 app[web.1]:[39m [verbose]	[fetch] GET https://nextstrain-data.s3.amazonaws.com/enterovirus_d68_vp1.json (cache: no-cache)
+[36m2022-07-14T18:21:02.671742+00:00 app[web.1]:[39m 2022-07-14T18:21:02.671Z agentkeepalive sock[61#nextstrain-data.s3.amazonaws.com:443::::::::true:::::::::::::] create, timeout undefinedms
+[36m2022-07-14T18:21:02.699824+00:00 app[web.1]:[39m 2022-07-14T18:21:02.699Z agentkeepalive sock[61#nextstrain-data.s3.amazonaws.com:443::::::::true:::::::::::::](requests: 1, finished: 1) free
+[36m2022-07-14T18:21:02.701043+00:00 app[web.1]:[39m [verbose]	[fetch] 200 OK https://nextstrain-data.s3.amazonaws.com/enterovirus_d68_vp1.json (cache revalidated, timestamp Thu, 14 Jul 2022 18:20:52 GMT)
+[36m2022-07-14T18:21:02.701378+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:21:02 GMT compression undefined not compressible
+[36m2022-07-14T18:21:02.701407+00:00 app[web.1]:[39m Thu, 14 Jul 2022 18:21:02 GMT compression no compression: filtered
+[32m2022-07-14T18:21:02.702146+00:00 heroku[router]:[39m [2mat=[22m[2minfo[22m [2mmethod=[22m[1m[35mGET[39m[22m [2mpath=[22m[32m"/charon/getDataset?prefix=enterovirus/d68/vp1"[39m [2mhost=[22m[2mnext.nextstrain.org[22m [2mrequest_id=[22m[2ma12e2e98-531b-41c8-8b5b-5698bea754cc[22m [2mfwd=[22m[2m"140.107.103.219"[22m [2mdyno=[22m[36mweb.1[39m [2mconnect=[22m0ms [2mservice=[22m[92m35ms[39m [2mstatus=[22m[36m304[39m [2mbytes=[22m[2m210[22m [2mprotocol=[22m[2mhttps[22m
+
+
+[36m2022-07-14T18:21:08.742766+00:00 app[web.1]:[39m 2022-07-14T18:21:08.742Z agentkeepalive sock[61#nextstrain-data.s3.amazonaws.com:443::::::::true:::::::::::::](requests: 1, finished: 1) close, isError: false
