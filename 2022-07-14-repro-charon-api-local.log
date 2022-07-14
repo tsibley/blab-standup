@@ -1,0 +1,37 @@
+Thu, 14 Jul 2022 19:24:39 GMT express:router dispatching GET /charon/getDataset?prefix=enterovirus/d68/vp1
+Thu, 14 Jul 2022 19:24:39 GMT express:router query  : /charon/getDataset?prefix=enterovirus/d68/vp1
+Thu, 14 Jul 2022 19:24:39 GMT express:router expressInit  : /charon/getDataset?prefix=enterovirus/d68/vp1
+Thu, 14 Jul 2022 19:24:39 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+Thu, 14 Jul 2022 19:24:39 GMT express:router compression  : /charon/getDataset?prefix=enterovirus/d68/vp1
+Thu, 14 Jul 2022 19:24:39 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+Thu, 14 Jul 2022 19:24:39 GMT express:router rejectParentTraversals  : /charon/getDataset?prefix=enterovirus/d68/vp1
+Thu, 14 Jul 2022 19:24:39 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+Thu, 14 Jul 2022 19:24:39 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+Thu, 14 Jul 2022 19:24:39 GMT express:router session  : /charon/getDataset?prefix=enterovirus/d68/vp1
+Thu, 14 Jul 2022 19:24:39 GMT express-session fetching MASKED
+Thu, 14 Jul 2022 19:24:39 GMT express-session session found
+Thu, 14 Jul 2022 19:24:39 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+Thu, 14 Jul 2022 19:24:39 GMT express:router initialize  : /charon/getDataset?prefix=enterovirus/d68/vp1
+Thu, 14 Jul 2022 19:24:39 GMT express:router authnWithToken  : /charon/getDataset?prefix=enterovirus/d68/vp1
+Thu, 14 Jul 2022 19:24:39 GMT express:router authnWithSession  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[verbose]	Failed to deserialize user from session (Error: unencryptedDataKey has not been set); leaving session intact but ignoring user
+Thu, 14 Jul 2022 19:24:39 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+Thu, 14 Jul 2022 19:24:39 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+Thu, 14 Jul 2022 19:24:39 GMT express:router trim prefix (/charon) from url /charon/getDataset?prefix=enterovirus/d68/vp1
+Thu, 14 Jul 2022 19:24:39 GMT express:router corsMiddleware /charon : /charon/getDataset?prefix=enterovirus/d68/vp1
+Getting (nextstrain) datasets for: prefix=enterovirus/d68/vp1
+[verbose]	[fetch] GET https://nextstrain-data.s3.amazonaws.com/enterovirus_d68_vp1.json (cache: no-cache)
+2022-07-14T19:24:39.156Z agentkeepalive sock[0#nextstrain-data.s3.amazonaws.com:443::::::::true:::::::::::::] create, timeout undefinedms
+2022-07-14T19:24:39.473Z agentkeepalive sock[0#nextstrain-data.s3.amazonaws.com:443::::::::true:::::::::::::](requests: 1, finished: 1) free
+[verbose]	[fetch] 200 OK https://nextstrain-data.s3.amazonaws.com/enterovirus_d68_vp1.json (cache revalidated, timestamp Thu, 14 Jul 2022 19:23:38 GMT)
+Thu, 14 Jul 2022 19:24:39 GMT express-session touching
+[warning]	(GET) /charon/getDataset?prefix=enterovirus/d68/vp1 has not been handled / has no handler
+Thu, 14 Jul 2022 19:24:39 GMT express:router serveStatic  : /charon/getDataset?prefix=enterovirus/d68/vp1
+Thu, 14 Jul 2022 19:24:39 GMT express:router <anonymous>  : /charon/getDataset?prefix=enterovirus/d68/vp1
+Thu, 14 Jul 2022 19:24:39 GMT express:router wrappedErrorHandler  : /charon/getDataset?prefix=enterovirus/d68/vp1
+[verbose]	Sending NotFoundError: Not Found error as JSON
+Thu, 14 Jul 2022 19:24:39 GMT finalhandler default 404
+Thu, 14 Jul 2022 19:24:39 GMT express-session touched
+Thu, 14 Jul 2022 19:24:39 GMT express-session set-cookie nextstrain.org-session=MASKED; Path=/; Expires=Sat, 13 Aug 2022 19:24:39 GMT; HttpOnly; SameSite=Lax
+Thu, 14 Jul 2022 19:24:39 GMT compression no compression: size below threshold
+2022-07-14T19:24:45.503Z agentkeepalive sock[0#nextstrain-data.s3.amazonaws.com:443::::::::true:::::::::::::](requests: 1, finished: 1) close, isError: false
