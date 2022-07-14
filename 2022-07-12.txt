@@ -1,0 +1,110 @@
+# 12 July 2022
+# or, …
+
+Notable changes
+
+  - for charon/getDataset: getAsync(1 handler) → getAsync(4 handlers)
+    - 3 of which aren't async functions, but call next() themselves
+    - @awaitjs/express will call it again, but it should short circuit
+      (right??) since it's wrapped by _once().
+
+
+Notable unchanges:
+
+  - charon.getDataset() signature is the same and basic structure is the
+    same.
+
+
+
+
+Theoretical execution trace?
+
+    endpoints.charon.setSourceFromPrefix()
+      return next()
+        endpoints.charon.setDatasetFromPrefix()
+          next()
+            endpoints.charon.canonicalizeDatasetPrefix()
+              return next()
+                async endpoints.charon.getDataset()
+                  return promise [implicit]
+              return promise
+          return undefined [implicit]
+      return undefined
+
+
+    endpoints.charon.setSourceFromPrefix() [async wrapped]
+      return next()
+        endpoints.charon.setDatasetFromPrefix() [async wrapped]
+          next()
+
+            @awaitjs/express:wrappedMiddleware
+              await endpoints.charon.canonicalizeDatasetPrefix()
+                return next()
+                  @awaitjs/express:wrappedMiddleware
+                    await endpoints.charon.getDataset()
+                      endpoints.charon.getDataset()
+                        return promiseD [implicit]
+                    return promiseD'(undefined) [implicit]
+                  return promiseC(promiseD'(undefined))
+                
+              ...
+
+          return promiseB(undefined) [implicit]
+      return promiseA(promiseB(undefined))
+
+
+
+  
+    @awaitjs/express:wrappedMiddleware
+      await endpoints.charon.setSourceFromPrefix()
+        return next()
+          @awaitjs/express:wrappedMiddleware
+            await endpoints.charon.setDatasetFromPrefix()
+              next()
+                @awaitjs/express:wrappedMiddleware
+                  await endpoints.charon.canonicalizeDatasetPrefix()
+                    return next()
+                      @awaitjs/express:wrappedMiddleware
+                        await endpoints.charon.getDataset()
+                          return res.end()
+                        return promiseD [implicit]
+                      <- promiseD
+                  return promiseC(promiseD) [implicit]
+                <- promiseC(promiseD)
+              return undefined [implicit]
+            return promiseB [implicit]
+          <- promiseB
+      return promiseA(promiseB) [implicit]
+    <- promiseA(promiseB)
+
+
+
+
+races res.headersSent with async getDataset() and calls next() if it wins??
+  next() is a per-request globally working off a shared stack, effectively,
+  so it advances past getDataset?!?!
+
+  but next still shouldn't be callable twice??
+
+Is this how next() works?? Does it actually return meaningfully??  I don't think so.
+
+Note that each of our endpoints.charon functions above are wrapped by @awaitjs/express.
+
+
+    return async function wrappedMiddleware(req, res, next) {
+      next = _once(next);
+      try {
+        await fn(req, res, next);
+        res.headersSent ? null : next();
+      } catch(err) {
+        res.headersSent ? null : next(err);
+      }
+    };
+
+
+
+
+@awaitjs/express shouldn't
+
+  - ever call next itself, except on error
+  - use async functions itself, but instead use .catch(err => next(err)), because nothing is guaranteed to await its wrappers
