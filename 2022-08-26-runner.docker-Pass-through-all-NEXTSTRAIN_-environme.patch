@@ -1,0 +1,60 @@
+From 3aa8211ac8c587709543f50cda84f03a0fe09a92 Mon Sep 17 00:00:00 2001
+From: Thomas Sibley <tsibley@fredhutch.org>
+Date: Wed, 1 Aug 2018 14:54:43 -0700
+Subject: [PATCH] runner.docker: Pass through all NEXTSTRAIN_* environment
+ variables
+
+This reduces the specific coupling of pathogen builds to the CLI by
+instituting a generic convention all builds can use.  It very
+intentionally is a solution that will work seamlessly with all build
+execution methods (e.g. locally with snakemake or via nextstrain build)
+so that our instructions can remain consistent and unified.
+
+One downside is that _how_ environment variables get set in the first
+place is still left up to each individual user.  There is not a standard
+way, although environment directories remain an option even if they're
+not integrated.  We can integrate envdir or something similarly
+prescriptive later if we still desire it.
+
+This approach came out of summarizing my thoughts around environment
+vars and the CLI and pathogen builds a couple weeks ago in this
+document:
+
+   https://github.com/tsibley/blab-standup/blob/master/2018-07-20.md#20-july-2018
+
+A little bit of further discussion, linked to from the top of that
+document, was had on Slack in #nextstrain-general.
+
+I ultimately chose the prefix convention as its a simpler step forward
+and has the advantage of requiring no custom boilerplate to create an
+environment directory in remote execution environments like Travis CI
+and AWS Batch.
+---
+ nextstrain/cli/runner/docker.py | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/nextstrain/cli/runner/docker.py b/nextstrain/cli/runner/docker.py
+index 89527f7..d0350ce 100644
+--- a/nextstrain/cli/runner/docker.py
++++ b/nextstrain/cli/runner/docker.py
+@@ -130,9 +130,14 @@ def run(opts):
+             for v in opts.volumes
+              if v.src is not None],
+ 
+-        # Pass through credentials as environment variables
+-        "--env=RETHINK_HOST",
+-        "--env=RETHINK_AUTH_KEY",
++        # Pass through all NEXTSTRAIN_* environment variables.
++        #
++        # We intentionally don't explicitly include values so sensitive bits
++        # don't show up on the command line (which is visible in `ps` output
++        # and elsewhere).
++      *["--env=%s" % name
++            for name in os.environ
++             if name.startswith("NEXTSTRAIN_")],
+ 
+         *opts.docker_args,
+         opts.image,
+-- 
+2.37.2
+

@@ -1,0 +1,163 @@
+From 9d56bc18e3e87198abb4678638b34f5c4d5ac3e2 Mon Sep 17 00:00:00 2001
+From: Thomas Sibley <tsibley@fredhutch.org>
+Date: Thu, 9 Aug 2018 12:49:17 -0700
+Subject: [PATCH] runner.docker: Pass through most environment variables into
+ the container
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Variables controlling the behaviour of bash, python, and the runtime
+location of mafft are not passed through, to avoid obvious local env
+that might break the container env.
+
+The idea is to walk the fine line between perfect reproducibility and
+ease of use.  By reducing the isolation of the environment, we
+potentially impact reproducibility, but we also make it easier to work
+with builds by not requiring advance knowledge of what environment
+variables need to be passed at runtime.
+
+This reduces the specific coupling of pathogen builds to the CLI.  It
+intentionally prioritizes a seamless and consistent user experience
+whether running builds directly with snakemake in a local environment or
+in a containerized environment via `nextstrain build`.
+
+Another approach could be to use a special-cased name prefix¹, like
+NEXTSTRAIN_, but that doesn't work for environment names used by
+software we don't control, like AWS_ACCESS_KEY_ID.  It also will cause a
+lot of churn for names already in use.
+
+Note that _how_ environment variables get set in the first place is
+still left up to each individual user.  There is not a standard way;
+sourcing local shell scripts or using environment directories are two
+options.  If we find ourselves wanting more structure in the future, we
+can integrate envdir or something similar then.
+
+¹ https://github.com/tsibley/blab-standup/blob/master/2018-07-20.md#20-july-2018
+---
+ nextstrain/cli/runner/docker.py | 88 +++++++++++++++++++++++++++++++--
+ 1 file changed, 85 insertions(+), 3 deletions(-)
+
+diff --git a/nextstrain/cli/runner/docker.py b/nextstrain/cli/runner/docker.py
+index a2aaaec..16fc0fe 100644
+--- a/nextstrain/cli/runner/docker.py
++++ b/nextstrain/cli/runner/docker.py
+@@ -7,6 +7,7 @@ import shutil
+ import argparse
+ import subprocess
+ from collections import namedtuple
++from fnmatch import fnmatchcase
+ from pathlib import Path
+ from ..util import warn, colored, capture_output
+ 
+@@ -67,6 +68,11 @@ def register_arguments(parser, exec=None, volumes=[]):
+         metavar = "<prog>",
+         default = exec_cmd)
+ 
++    development.add_argument(
++        "--clean-env",
++        help    = "Don't pass through your local environment variables into the container",
++        action  = "store_true")
++
+     development.set_defaults(volumes = [])
+ 
+     for name in volumes:
+@@ -131,9 +137,15 @@ def run(opts):
+             for v in opts.volumes
+              if v.src is not None],
+ 
+-        # Pass through credentials as environment variables
+-        "--env=RETHINK_HOST",
+-        "--env=RETHINK_AUTH_KEY",
++        # Pass through almost all environment variables.
++        #
++        # We intentionally don't include explicit values so sensitive bits
++        # don't show up on the command line (which is visible in `ps` output
++        # and elsewhere).
++      *["--env=%s" % name
++            for name in os.environ
++             if not opts.clean_env
++            and not blocked_environment_variable(name)],
+ 
+         *opts.docker_args,
+         opts.image,
+@@ -150,6 +162,76 @@ def run(opts):
+         return 0
+ 
+ 
++def blocked_environment_variable(name):
++    """
++    Return True if the environment variable with the given name should be
++    blocked from being passed through to the container.  Otherwise, return
++    False.
++
++    Blocked variables include those documented to control the behaviour of
++    bash, python, and mafft.
++    """
++    blocked = [
++        # Bash variables
++        #
++        # Extracted from the bash manpage in the section starting with "The
++        # following variables are used by the shell."
++        "BASH_*",
++        "CDPATH",
++        "CHILD_MAX",
++        "COLUMNS",
++        "COMPREPLY",
++        "EMACS",
++        "ENV",
++        "EXECIGNORE",
++        "FCEDIT",
++        "FIGNORE",
++        "FUNCNEST",
++        "GLOBIGNORE",
++        "HISTCONTROL",
++        "HISTFILE",
++        "HISTFILESIZE",
++        "HISTIGNORE",
++        "HISTSIZE",
++        "HISTTIMEFORMAT",
++        "HOME",
++        "HOSTFILE",
++        "IFS",
++        "IGNOREEOF",
++        "INPUTRC",
++        "LANG",
++        "LC_*",
++        "LINES",
++        "MAIL",
++        "MAILCHECK",
++        "MAILPATH",
++        "OPTERR",
++        "PATH",
++        "POSIXLY_CORRECT",
++        "PROMPT_COMMAND",
++        "PROMPT_DIRTRIM",
++        "PS?",
++        "SHELL",
++        "TIMEFORMAT",
++        "TMOUT",
++        "TMPDIR",
++        "auto_resume",
++        "histchars",
++
++        # General variables which may cause confusion
++        "USER",
++
++        # Python variables
++        "PYTHONHOME",
++        "PYTHONPATH",
++        "PYTHONSTARTUP",
++
++        # Set by the image
++        "MAFFT_BINARIES",
++    ]
++    return any([ fnmatchcase(name, pattern) for pattern in blocked ])
++
++
+ def replace_ellipsis(items, elided_items):
+     """
+     Replaces any Ellipsis items (...) in a list, if any, with the items of a
+-- 
+2.37.2
+

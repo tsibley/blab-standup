@@ -1,0 +1,152 @@
+From cc7ee1edd1d523217f5cbf90a075b675ba8fa57b Mon Sep 17 00:00:00 2001
+From: Thomas Sibley <tsibley@fredhutch.org>
+Date: Fri, 10 Aug 2018 16:46:24 -0700
+Subject: [PATCH] Add a "write-envdir" command to facilitate setting up
+ environment directories
+
+Although it's relatively easy to create environment directories using a
+normal text editor or shell commands like "echo", this utility command
+enables one-shot creation of several variables.  In particular, this
+will be useful in automated environments where some of the ambient
+environment variables want to be written to disk to be "forwarded" into
+a container using envdir.
+---
+ nextstrain/cli/__init__.py             |   3 +-
+ nextstrain/cli/command/write_envdir.py | 104 +++++++++++++++++++++++++
+ 2 files changed, 106 insertions(+), 1 deletion(-)
+ create mode 100644 nextstrain/cli/command/write_envdir.py
+
+diff --git a/nextstrain/cli/__init__.py b/nextstrain/cli/__init__.py
+index 138be64..9480eb8 100644
+--- a/nextstrain/cli/__init__.py
++++ b/nextstrain/cli/__init__.py
+@@ -8,7 +8,7 @@ import argparse
+ from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter, RawDescriptionHelpFormatter
+ from types    import SimpleNamespace
+ 
+-from .command     import build, view, deploy, shell, update, check_setup, version
++from .command     import build, view, deploy, shell, update, check_setup, write_envdir, version
+ from .__version__ import __version__
+ 
+ 
+@@ -39,6 +39,7 @@ def run(args):
+         shell,
+         update,
+         check_setup,
++        write_envdir,
+         version,
+     ]
+ 
+diff --git a/nextstrain/cli/command/write_envdir.py b/nextstrain/cli/command/write_envdir.py
+new file mode 100644
+index 0000000..61cf9e0
+--- /dev/null
++++ b/nextstrain/cli/command/write_envdir.py
+@@ -0,0 +1,104 @@
++"""
++Write environment variables into an environment directory.
++
++The directory (and any path leading up to it) are automatically created as
++necessary.  New variables will be written into an existing directory, but by
++default only if the variable doesn't already exist.
++
++Variables specified by name alone will take their values from the ambient
++environment.  Alternatively, specific values may be specified on the command
++line as NAME=VALUE.
++"""
++
++import os
++import envdir
++from pathlib import Path
++from ..util import warn
++
++
++def register_parser(subparser):
++    parser = subparser.add_parser("write-envdir", help = "Save values into an environment directory")
++    parser.description = __doc__
++
++    # Only one of --force or --clear make sense.
++    group = parser.add_mutually_exclusive_group()
++    group.add_argument(
++        "--force",
++        help    = "Overwrite existing variables if necessary",
++        action  = "store_true")
++
++    group.add_argument(
++        "--clear",
++        help    = "Remove all existing variables first",
++        action  = "store_true")
++
++    # Positional parameters
++    parser.add_argument(
++        "directory",
++        help    = "Path to environment directory",
++        metavar = "<directory>")
++
++    parser.add_argument(
++        "variables",
++        help    = "Environment variables to write into the directory, with optional alternate values",
++        metavar = "[NAME | NAME=value]",
++        nargs   = "+")
++
++    return parser
++
++
++def run(opts):
++    environ = environ_from(opts.variables, os.environ)
++
++    # Bail early if any variables without explicit values are not defined in
++    # the ambient environment.
++    missing = [ name for name, value in environ.items() if value is None ]
++
++    if missing:
++        warn("The following environment variables are not defined: %s" % ", ".join(missing))
++        warn()
++        warn("Please export values into your environment first or provide an explicit")
++        warn("alternate value on the command line.  For example:")
++        warn()
++        warn("    nextstrain write-env %s %s=value ..." % (opts.directory, missing[0]))
++        warn()
++        return 1
++
++    # Auto-create the directory (mkdir -p) if necessary
++    directory = Path(opts.directory)
++    directory.mkdir(parents = True, exist_ok = True)
++
++    with envdir.open(directory) as env:
++        # Remove all variables from the directory if asked.
++        if opts.clear:
++            for name in list(env.keys()):
++                del env[name]
++
++        # Bail early if any variables already exist and we're not force
++        # overwriting them.
++        existing = set(env) & set(environ)
++
++        if existing and not opts.force:
++            warn("The following variables already exist in %s: %s" % (opts.directory, ", ".join(existing)))
++            warn()
++            warn("Refusing to overwrite existing variables by default.  Nothing changed.")
++            warn()
++            warn("Provide the --force option to overwrite all existing variables.")
++            return 1
++
++        # Write the updates to disk; the envdir.Env object handles this for us!
++        env.update(environ)
++
++
++def environ_from(variables, fallback):
++    env = {}
++
++    for variable in variables:
++        if '=' in variable:
++            name, value = variable.split('=', 1)
++        else:
++            name, value = variable, fallback.get(variable)
++
++        env[name] = value
++
++    return env
+-- 
+2.37.2
+
