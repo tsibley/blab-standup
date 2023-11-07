@@ -60,7 +60,7 @@
         unclear what the point would be though... avoid the server storing more tokens, I guess?
         (and maybe doesn't work with IP binding?)
 
-        this is partial impersonation
+        this is partial (instead of full) impersonation
 
 
     is this reinventing device authorization flow?
