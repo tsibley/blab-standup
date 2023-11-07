@@ -1,0 +1,85 @@
+# 7 November 2023
+# or, multiple nextstrain.org-like remotes in Nextstrain CLI
+
+- better story for NEXTSTRAIN_DOT_ORG
+    - config, not just env
+    - `nextstrain remote` should accept it
+    - `nextstrain remote` should be clearer when "nextstrain.org" means
+      something other than literally nextstrain.org
+
+- env/config to override IdP
+    - same value as OIDC_IDP_URL for server
+
+- or, optionally?, WebFinger for discovery of IdP based on username input + NEXTSTRAIN_DOT_ORG value?
+    - trs → resource=acct:trs@nextstrain.org
+        with NEXTSTRAIN_DOT_ORG=https://nextstrain.org
+
+    - vlin → resource=acct:vlin@localhost:5000
+        with NEXTSTRAIN_DOT_ORG=http://localhost:5000
+
+    - rwy9@cdc.gov → resource=acct:rwy9%40cdc.gov@nextstrain.biotech.cdc.gov
+        with NEXTSTRAIN_DOT_ORG=https://nextstrain.biotech.cdc.gov
+
+- one set of global credentials? or one per remote?
+
+- flow
+    "native app" BCP <https://datatracker.ietf.org/doc/html/rfc8252>
+        bind loopback on random port… if cognito and azure allow it
+        but this doesn't work if you're authing it on a remote computer
+            i.e. browser and cli aren't on same computer
+            that seems common!
+
+
+    1. nextstrain login
+    2. open browser to https://nextstrain.org/cli/login
+    3. redirects to IdP with authorization code flow for CLI client
+    4. returns to https://nextstrain.org/cli/logged-in?code=…
+    5. displays code, instructs to copy-paste into `nextstrain login` prompt?
+    6. `nextstrain login` exchanges code for tokens?
+
+    can't do the above unless state or pkce is not used (or is shared between server and cli...)
+        not great, as code is visible, unsecured, and can be used as-is by anything
+
+
+    1. nextstrain login
+    2. cli posts https://nextstrain.org/cli/login
+    3. server responds with (a) session cookie scoped to a path, (b) URL for CLI to request and wait on, and (c) URL for user to login
+    5. cli gets (b), which blocks until login is complete (or times out)
+    4. cli opens browser to (c)
+    6. user completes auth with IdP and returns to https://nextstrain.org/cli/logged-in
+    7. server exchanges code for tokens (checking state and pkce)
+    8. server responds to cli's request in (5) with tokens and deleted cookie
+
+    relies on TLS so cookie in (3) and tokens in (8) aren't intercepted, but that's yeah, what TLS is for.
+
+    how does this handle token renewal though...? it doesn't, really.
+        well, the client is used by both the CLI and server, huh?
+        yeah
+
+    alternatively instead of a cookie and the server obtaining the tokens (step 7), the server could give the CLI the state and pkce in (3) and the code in (8) and the CLI could verify state/pkce and request tokens directly?
+        unclear what the point would be though... avoid the server storing more tokens, I guess?
+        (and maybe doesn't work with IP binding?)
+
+        this is partial impersonation
+
+
+    is this reinventing device authorization flow?
+        <https://datatracker.ietf.org/doc/html/rfc8628>
+        does cognito and azure support this?
+            azure does...
+            cognito?
+
+        if they don't, maybe we can implement it in terms of them?
+
+
+    should the server "just" be an IdP? is that what this turns into?
+        definitely at the limit it does... but is it worth it?
+            probably not?
+        proxy IdP
+        or could do SSO based on existing browser session?
+
+        this would probably look like implementing device authz flow on top of
+        authorization code flow with the idp
+
+        but it messes with expectations of tokens and issuers and refreshing and what not...
+        so maybe in the future, but not now.
