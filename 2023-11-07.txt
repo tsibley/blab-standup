@@ -7,6 +7,8 @@
     - `nextstrain remote` should be clearer when "nextstrain.org" means
       something other than literally nextstrain.org
 
+    - better yet, make `nextstrain remote ls nextstrain.biotech.cdc.gov/groups/spheres` just work
+
 - env/config to override IdP
     - same value as OIDC_IDP_URL for server
 
