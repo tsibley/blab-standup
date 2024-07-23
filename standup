@@ -102,12 +102,16 @@ main() {
     if [[ $cmd == edit ]]; then
         # Don't use /usr/bin/edit because it might try to be smart and use
         # mailcap depending on the extension or magic bytes.
-        cmd="$EDITOR"
+        cmd="$EDITOR +6"
 
         if [[ ! -s "$file" ]]; then
             cat >"$file" <<.
 # $(date -d "$date" +"%-d %B %Y")
 # or, …
+
+_xx:00–yy:00 (… + … = …)_
+
+
 .
         fi
     fi
