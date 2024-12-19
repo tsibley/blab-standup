@@ -37,7 +37,7 @@ main() {
 
             review)
                 cd "$repo"
-                exec $EDITOR $(list-files);;
+                exec $EDITOR -R $(list-files | tac) +last;;
 
             view)
                 cmd=pan
